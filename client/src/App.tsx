@@ -18,17 +18,29 @@ function App() {
     setOriginalHash(hash);
   };
 
-  const updateData = async () => {
-    await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({ data }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
+  // const updateData = async () => {
+  //   await fetch(API_URL, {
+  //     method: 'POST',
+  //     body: JSON.stringify({ data }),
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
 
-    await getData();
+  //   await getData();
+  // };
+
+  const updateData = async () => {
+    try {
+      const response = await fetch(API_URL);
+      const recoveredData = await response.json();
+      setData(recoveredData.data || 'No recovered data available');
+    } catch (error) {
+      console.error('Error recovering data:', error);
+    }
+
+    // await getData();
   };
 
   const verifyData = async () => {
